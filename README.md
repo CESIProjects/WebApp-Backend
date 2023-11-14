@@ -1,40 +1,33 @@
-# (RE)Sources Realtionnelles
+# Getting Started
 
-## Setup
+Pour lancer le project vous devrez installer java JDK :
+* [Cliquez ici :](https://www.oracle.com/java/technologies/downloads/#jdk21-windows)
 
-The first thing to do is to clone the repository:
+Ensuite vous devrez installer Maven et le définir dans vos variable d'environement : * [Suivre ce tuto en cliquant ici :](https://phoenixnap.com/kb/install-maven-windows)
 
-```sh
-$ git clone https://github.com/CESIProjects/WebApp-Backend.git
-$ cd WebApp-Backend
-```
+Ensuite cloner le git du backend avec : 
 
-Create a virtual environment to install dependencies in and activate it:
+````git clone https://github.com/CESIProjects/WebApp-Backend.git```
 
-```sh
-$ python3 -m venv env
-$ source env/bin/activate
-```
+Ensuite : `
 
-Then install the dependencies:
+```cd WebApp-Backend```
 
-```sh
-(env)$ python -m pip install --upgrade pip
-(env)$ pip install django
-(env)$ pip install djangorestframework
-```
-Note the `(env)` in front of the prompt. This indicates that this terminal
-session operates in a virtual environment set up by `virtualenv2`.
+Une fois dans l'application, installer toute les dépendances établit : 
 
-Once `pip` has finished downloading the dependencies:
-```sh
-(env)$ cd backend
-(env)$ python manage.py runserver
-```
-And navigate to `http://127.0.0.1:8000/`.
+```mvn clean install```
+
+Si la commande est un succès vous pourrez allumé le serveur avec :
+
+```mvn spring-boot:run```
+
+Et rendez-vous sur http://localhost:8080
 
 
-## Test
+### Reference Documentation
+For further reference, please consider the following sections:
 
-Before doing anything to our BEAUTIFUL APP check if `http://127.0.0.1:8000` return
-home page, if it does then you can try to write some new request !!
+* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
+* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/3.1.5/maven-plugin/reference/html/)
+* [Create an OCI image](https://docs.spring.io/spring-boot/docs/3.1.5/maven-plugin/reference/html/#build-image)
+
