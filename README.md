@@ -1,15 +1,16 @@
 # Getting Started
 
-Pour lancer le project vous devrez installer java JDK :
-* [Cliquez ici :](https://www.oracle.com/java/technologies/downloads/#jdk21-windows)
+Pour lancer le project vous devrez installer Java JDK :
+[Cliquez ici :](https://www.oracle.com/java/technologies/downloads/#jdk21-windows)
 
-Ensuite vous devrez installer Maven et le définir dans vos variable d'environement : * [Suivre ce tuto en cliquant ici :](https://phoenixnap.com/kb/install-maven-windows)
+Ensuite vous devrez installer Maven et le définir dans vos variable d'environement :
+[Suivre ce tuto en cliquant ici :](https://phoenixnap.com/kb/install-maven-windows)
 
 Ensuite cloner le git du backend avec : 
 
-````git clone https://github.com/CESIProjects/WebApp-Backend.git```
+```git clone https://github.com/CESIProjects/WebApp-Backend.git```
 
-Ensuite : `
+Ensuite :
 
 ```cd WebApp-Backend```
 
