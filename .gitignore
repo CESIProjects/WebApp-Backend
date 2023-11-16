@@ -35,3 +35,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# My files (database, etc...)
+/database
