@@ -7,15 +7,18 @@ import resources.backend.domain.Customer;
 import resources.backend.model.CustomerDTO;
 import resources.backend.repos.CustomerRepository;
 import resources.backend.util.NotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 @Service
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public CustomerService(final CustomerRepository customerRepository) {
+    public CustomerService(final CustomerRepository customerRepository, final PasswordEncoder passwordEncoder) {
         this.customerRepository = customerRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<CustomerDTO> findAll() {
@@ -32,17 +35,25 @@ public class CustomerService {
     }
 
     public Long create(final CustomerDTO customerDTO) {
+        if (customerRepository.existsByEmail(customerDTO.getEmail())) {
+            throw new DuplicateEmailException("L'email existe déjà");
+        }
+
         final Customer customer = new Customer();
         mapToEntity(customerDTO, customer);
+
+        customer.setPassword(passwordEncoder.encode(customerDTO.getPassword()));
+
         return customerRepository.save(customer).getId();
     }
 
     public void update(final Long id, final CustomerDTO customerDTO) {
         final Customer customer = customerRepository.findById(id)
-                .orElseThrow(NotFoundException::new);
+            .orElseThrow(NotFoundException::new);
         mapToEntity(customerDTO, customer);
         customerRepository.save(customer);
     }
+
 
     public void delete(final Long id) {
         customerRepository.deleteById(id);
@@ -51,12 +62,22 @@ public class CustomerService {
     private CustomerDTO mapToDTO(final Customer customer, final CustomerDTO customerDTO) {
         customerDTO.setId(customer.getId());
         customerDTO.setName(customer.getName());
+        customerDTO.setEmail(customer.getEmail());
+        customerDTO.setPassword(customer.getPassword());
         return customerDTO;
     }
 
     private Customer mapToEntity(final CustomerDTO customerDTO, final Customer customer) {
         customer.setName(customerDTO.getName());
+        customer.setEmail(customerDTO.getEmail());
+        customer.setPassword(customerDTO.getPassword());
         return customer;
+    }
+
+    class DuplicateEmailException extends RuntimeException {
+        public DuplicateEmailException(String message) {
+            super(message);
+        }
     }
 
 }
