@@ -15,6 +15,10 @@
 
     <properties>
         <java.version>17</java.version>
+        <sonar.host.url>http://localhost:9000</sonar.host.url>
+        <sonar.login>admin</sonar.login>
+        <sonar.password>Chelsea_123</sonar.password>
+        <sonar.token>squ_61f0d5e2a14f3ca2127aa494ec502f82a65f96e3</sonar.token>
     </properties>
 
     <dependencies>
@@ -88,6 +92,12 @@
                     </profiles>
                 </configuration>
             </plugin>
+            <plugin>
+            <groupId>org.sonarsource.scanner.maven</groupId>
+            <artifactId>sonar-maven-plugin</artifactId>
+            <version>9.9.3</version> <!-- Replace with the latest version -->
+        </plugin>
         </plugins>
     </build>
+
 </project>
