@@ -1,8 +1,10 @@
 spring:
   datasource:
-    url: ${JDBC_DATABASE_URL:jdbc:mysql://localhost:3306/resources-relationnelles?serverTimezone=UTC}
-    username: ${JDBC_DATABASE_USERNAME:root}
-    password: ${JDBC_DATABASE_PASSWORD:}
+    url: jdbc:postgresql://resources-relationnelles.ct4gy8emwdut.eu-north-1.rds.amazonaws.com:5432/resources
+    # url: jdbc:postgresql://localhost:5432/resources
+    username: postgres
+    password: gnar2004SION2003!
+    # password: root
     dbcp2:
       max-wait-millis: 30000
       validation-query: /* ping */ select 1
