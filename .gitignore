@@ -38,3 +38,5 @@ build/
 
 # My files (database, etc...)
 /database
+
+resources/application.yml
