@@ -5,14 +5,10 @@ spring:
     username: postgres
     password: gnar2004SION2003!
     # password: root
-    dbcp2:
-      max-wait-millis: 30000
-      validation-query: /* ping */ select 1
-      validation-query-timeout: 30
   jpa:
     hibernate:
-      ddl-auto: update
-    open-in-view: false
+      ddl-auto: none
+    open-in-view: true
     properties:
       hibernate:
         jdbc:

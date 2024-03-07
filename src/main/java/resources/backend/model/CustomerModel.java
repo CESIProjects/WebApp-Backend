@@ -1,26 +1,18 @@
-package resources.backend.domain;
+package resources.backend.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.validation.constraints.Size;
 
-@Entity
-public class Customer {
+public class CustomerModel {
 
-    @Id
-    @Column(nullable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Size(max = 255)
     private String name;
 
-    @Column(nullable = false, unique = true)
+    @Size(max = 255)
     private String email;
 
-    @Column(nullable = false)
+    @Size(max = 255)
     private String password;
 
     public Long getId() {

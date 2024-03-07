@@ -1,22 +1,31 @@
-package resources.backend.model;
+package resources.backend.entity;
 
-import jakarta.validation.constraints.Size;
+import jakarta.persistence.*;
 
-public class PostDTO {
+@Entity
+public class Post {
 
+    @Id
+    @Column(nullable = false, updatable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(max = 120)
+    @Column(nullable = false)
     private String title;
 
+    @Column(columnDefinition = "LONGTEXT")
     private String content;
 
+    @Column(name = "publication_date", nullable = false)
     private String publicationDate;
 
-    private Boolean popular;
+    @Column(nullable = false)
+    private Long popular;
 
+    @Column(nullable = false)
     private Long userId;
 
+    @Column(nullable = false)
     private Long categoryId;
 
     public Long getId() {
@@ -46,16 +55,16 @@ public class PostDTO {
     public String getPublicationDate() {
         return publicationDate;
     }
-
-    public void setPublicationDate(String publicationDate) {
-        this.publicationDate = publicationDate;
+    
+    public void setPublicationDate(String publication_date) {
+        this.publicationDate = publication_date;
     }
 
-    public Boolean getPopular() {
+    public Long getPopular() {
         return popular;
     }
 
-    public void setPopular(Boolean popular) {
+    public void setPopular(Long popular) {
         this.popular = popular;
     }
 
