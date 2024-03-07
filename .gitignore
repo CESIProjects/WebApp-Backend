@@ -38,6 +38,6 @@ build/
 
 # My files (database, etc...)
 /database
-
+.env
 src/main/resources/application.yml
 pom.xml
