@@ -38,3 +38,4 @@ build/
 
 # My files (database, etc...)
 /database
+.env
