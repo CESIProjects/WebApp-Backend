@@ -1,5 +1,6 @@
 package resources.backend.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import resources.backend.entity.Post;
@@ -13,7 +14,8 @@ import java.util.stream.Collectors;
 @Service
 public class PostService {
 
-    private final PostRepos postRepository;
+    @Autowired
+    private  final PostRepos postRepository;
 
     public PostService(final PostRepos postRepository) {
         this.postRepository = postRepository;
@@ -32,11 +34,15 @@ public class PostService {
         return mapToDTO(post);
     }
 
-    public Long create(final PostModel postDTO) {
+
+
+
+    public Long createPost(PostModel postDTO) {
         Post post = mapToEntity(postDTO);
         Post savedPost = postRepository.save(post);
         return savedPost.getId();
     }
+
 
     public void update(final Long id, final PostModel postDTO) {
         Post post = postRepository.findById(id)
@@ -54,7 +60,10 @@ public class PostService {
         postDTO.setId(post.getId());
         postDTO.setTitle(post.getTitle());
         postDTO.setContent(post.getContent());
-        // Map other attributes as well
+        postDTO.setPublicationDate(post.getPublicationDate());
+        postDTO.setPopular(post.getPopular());
+        postDTO.setUserId(post.getUserId());
+        postDTO.setCategoryId(post.getCategoryId());
         return postDTO;
     }
 
@@ -62,7 +71,10 @@ public class PostService {
         Post post = new Post();
         post.setTitle(postDTO.getTitle());
         post.setContent(postDTO.getContent());
-        // Map other attributes as well
+        post.setPublicationDate(new java.sql.Date(postDTO.getPublicationDate().getTime()));
+        post.setPopular(postDTO.getPopular());
+        post.setUserId(postDTO.getUserId());
+        post.setCategoryId(postDTO.getCategoryId());
         return post;
     }
 
