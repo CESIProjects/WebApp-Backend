@@ -10,10 +10,16 @@ public class CustomerModel {
     private String name;
 
     @Size(max = 255)
+    private String username;
+
+    @Size(max = 255)
     private String email;
 
     @Size(max = 255)
     private String password;
+
+    @Size(max = 255)
+    private String role;
 
     public Long getId() {
         return id;
@@ -31,6 +37,14 @@ public class CustomerModel {
         this.name = name;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(final String username) {
+        this.username = username;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -45,5 +59,13 @@ public class CustomerModel {
 
     public void setPassword(final String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(final String role) {
+        this.role = role;
     }
 }

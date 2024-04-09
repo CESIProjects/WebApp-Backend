@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 import resources.backend.entity.Post;
 import resources.backend.model.PostModel;
-import resources.backend.repos.PostRepos;
+import resources.backend.repository.PostRepos;
 import resources.backend.util.NotFoundException;
 
 import java.util.List;
