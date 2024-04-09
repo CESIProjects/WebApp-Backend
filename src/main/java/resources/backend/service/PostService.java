@@ -34,15 +34,11 @@ public class PostService {
         return mapToDTO(post);
     }
 
-
-
-
     public Long createPost(PostModel postDTO) {
         Post post = mapToEntity(postDTO);
         Post savedPost = postRepository.save(post);
         return savedPost.getId();
     }
-
 
     public void update(final Long id, final PostModel postDTO) {
         Post post = postRepository.findById(id)
@@ -81,6 +77,5 @@ public class PostService {
     private void mapToEntity(final PostModel postDTO, final Post post) {
         post.setTitle(postDTO.getTitle());
         post.setContent(postDTO.getContent());
-        // Map other attributes as well
     }
 }
