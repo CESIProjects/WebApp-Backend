@@ -32,9 +32,23 @@ class PostServiceTest {
     @InjectMocks
     private PostService postService;
 
+    private Post post;
+    private PostModel postModel;
+
     @BeforeEach
-    void setUp() {
+    void setUp() throws ParseException {
         MockitoAnnotations.openMocks(this);
+
+        // Initialize post
+        post = new Post();
+        post.setId(1L);
+
+        // Initialize postModel
+        postModel = new PostModel();
+        postModel.setTitle("Test Title");
+        postModel.setContent("Test Content");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        postModel.setPublicationDate(dateFormat.parse("2023/02/23"));
     }
 
     @Test
@@ -56,8 +70,6 @@ class PostServiceTest {
     void testGetExistingPost() {
         // Given
         Long postId = 1L;
-        Post post = new Post();
-        post.setId(postId);
         doReturn(Optional.of(post)).when(postRepository).findById(postId);
 
         // When
@@ -78,19 +90,8 @@ class PostServiceTest {
     }
 
     @Test
-    void testCreatePost() throws ParseException {
+    void testCreatePost() {
         // Given
-        PostModel postModel = new PostModel();
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        java.util.Date fixedPublicationDate = dateFormat.parse("2023/02/23");
-        
-        postModel.setTitle("Test Title");
-        postModel.setContent("Test Content");
-        postModel.setPublicationDate(fixedPublicationDate);
-
-        Post post = new Post();
-        post.setId(1L);
         doReturn(post).when(postRepository).save(any());
 
         // When
@@ -104,12 +105,9 @@ class PostServiceTest {
     void testUpdatePost() {
         // Given
         Long postId = 1L;
-        PostModel postModel = new PostModel();
+        doReturn(Optional.of(post)).when(postRepository).findById(postId);
         postModel.setTitle("Updated Title");
         postModel.setContent("Updated Content");
-        Post post = new Post();
-        post.setId(postId);
-        doReturn(Optional.of(post)).when(postRepository).findById(postId);
 
         // When
         postService.update(postId, postModel);
