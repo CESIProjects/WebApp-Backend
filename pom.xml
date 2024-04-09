@@ -17,8 +17,13 @@
         <java.version>17</java.version>
         <sonar.host.url>http://localhost:9000</sonar.host.url>
         <sonar.login>admin</sonar.login>
+<<<<<<< HEAD
+        <sonar.password>Chelsea_123</sonar.password>
+        <sonar.token>squ_15a6f6b3c070a8184c5f9940d6bab9c35ee20470</sonar.token>
+=======
         <sonar.password>RessourcesRelationnelles2024</sonar.password>
         <sonar.token>squ_46c9c1e8595241651fce9bb5face8f0d8707793c</sonar.token>
+>>>>>>> de54ec674a0b8e2a8b462696390fae4b28427d69
     </properties>
 
     <dependencies>
@@ -100,6 +105,11 @@
                 </configuration>
             </plugin>
             <plugin>
+<<<<<<< HEAD
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>9.9.3</version> <!-- Replace with the latest version -->
+=======
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.12</version>
@@ -119,6 +129,7 @@
                     </goals>
                     </execution>
                 </executions>
+>>>>>>> de54ec674a0b8e2a8b462696390fae4b28427d69
             </plugin>
         </plugins>
     </build>
