@@ -1,4 +1,4 @@
-package resources.backend.config;
+package resources.backend.controller;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import java.util.List;

@@ -1,9 +1,11 @@
 package resources.backend.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import resources.backend.domain.Post;
-import resources.backend.model.PostDTO;
-import resources.backend.repos.PostRepository;
+
+import resources.backend.entity.Post;
+import resources.backend.model.PostModel;
+import resources.backend.repos.PostRepos;
 import resources.backend.util.NotFoundException;
 
 import java.util.List;
@@ -12,32 +14,37 @@ import java.util.stream.Collectors;
 @Service
 public class PostService {
 
-    private final PostRepository postRepository;
+    @Autowired
+    private  final PostRepos postRepository;
 
-    public PostService(final PostRepository postRepository) {
+    public PostService(final PostRepos postRepository) {
         this.postRepository = postRepository;
     }
 
-    public List<PostDTO> findAll() {
+    public List<PostModel> findAll() {
         return postRepository.findAll()
                 .stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
     }
 
-    public PostDTO get(final Long id) {
+    public PostModel get(final Long id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
         return mapToDTO(post);
     }
 
-    public Long create(final PostDTO postDTO) {
+
+
+
+    public Long createPost(PostModel postDTO) {
         Post post = mapToEntity(postDTO);
         Post savedPost = postRepository.save(post);
         return savedPost.getId();
     }
 
-    public void update(final Long id, final PostDTO postDTO) {
+
+    public void update(final Long id, final PostModel postDTO) {
         Post post = postRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
         mapToEntity(postDTO, post);
@@ -48,24 +55,30 @@ public class PostService {
         postRepository.deleteById(id);
     }
 
-    private PostDTO mapToDTO(final Post post) {
-        PostDTO postDTO = new PostDTO();
+    private PostModel mapToDTO(final Post post) {
+        PostModel postDTO = new PostModel();
         postDTO.setId(post.getId());
         postDTO.setTitle(post.getTitle());
         postDTO.setContent(post.getContent());
-        // Map other attributes as well
+        postDTO.setPublicationDate(post.getPublicationDate());
+        postDTO.setPopular(post.getPopular());
+        postDTO.setUserId(post.getUserId());
+        postDTO.setCategoryId(post.getCategoryId());
         return postDTO;
     }
 
-    private Post mapToEntity(final PostDTO postDTO) {
+    private Post mapToEntity(final PostModel postDTO) {
         Post post = new Post();
         post.setTitle(postDTO.getTitle());
         post.setContent(postDTO.getContent());
-        // Map other attributes as well
+        post.setPublicationDate(new java.sql.Date(postDTO.getPublicationDate().getTime()));
+        post.setPopular(postDTO.getPopular());
+        post.setUserId(postDTO.getUserId());
+        post.setCategoryId(postDTO.getCategoryId());
         return post;
     }
 
-    private void mapToEntity(final PostDTO postDTO, final Post post) {
+    private void mapToEntity(final PostModel postDTO, final Post post) {
         post.setTitle(postDTO.getTitle());
         post.setContent(postDTO.getContent());
         // Map other attributes as well

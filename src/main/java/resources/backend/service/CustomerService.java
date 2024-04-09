@@ -3,9 +3,10 @@ package resources.backend.service;
 import java.util.List;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import resources.backend.domain.Customer;
-import resources.backend.model.CustomerDTO;
-import resources.backend.repos.CustomerRepository;
+
+import resources.backend.entity.Customer;
+import resources.backend.model.CustomerModel;
+import resources.backend.repos.CustomerRepos;
 import resources.backend.util.NotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -13,28 +14,28 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Service
 public class CustomerService {
 
-    private final CustomerRepository customerRepository;
+    private final CustomerRepos customerRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public CustomerService(final CustomerRepository customerRepository, final PasswordEncoder passwordEncoder) {
+    public CustomerService(final CustomerRepos customerRepository, final PasswordEncoder passwordEncoder) {
         this.customerRepository = customerRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public List<CustomerDTO> findAll() {
+    public List<CustomerModel> findAll() {
         final List<Customer> customers = customerRepository.findAll(Sort.by("id"));
         return customers.stream()
-                .map(customer -> mapToDTO(customer, new CustomerDTO()))
+                .map(customer -> mapToDTO(customer, new CustomerModel()))
                 .toList();
     }
 
-    public CustomerDTO get(final Long id) {
+    public CustomerModel get(final Long id) {
         return customerRepository.findById(id)
-                .map(customer -> mapToDTO(customer, new CustomerDTO()))
+                .map(customer -> mapToDTO(customer, new CustomerModel()))
                 .orElseThrow(NotFoundException::new);
     }
 
-    public Long create(final CustomerDTO customerDTO) {
+    public Long create(final CustomerModel customerDTO) {
         if (customerRepository.existsByEmail(customerDTO.getEmail())) {
             throw new DuplicateEmailException("L'email existe déjà");
         }
@@ -47,7 +48,7 @@ public class CustomerService {
         return customerRepository.save(customer).getId();
     }
 
-    public void update(final Long id, final CustomerDTO customerDTO) {
+    public void update(final Long id, final CustomerModel customerDTO) {
         final Customer customer = customerRepository.findById(id)
             .orElseThrow(NotFoundException::new);
         mapToEntity(customerDTO, customer);
@@ -59,7 +60,7 @@ public class CustomerService {
         customerRepository.deleteById(id);
     }
 
-    private CustomerDTO mapToDTO(final Customer customer, final CustomerDTO customerDTO) {
+    private CustomerModel mapToDTO(final Customer customer, final CustomerModel customerDTO) {
         customerDTO.setId(customer.getId());
         customerDTO.setName(customer.getName());
         customerDTO.setEmail(customer.getEmail());
@@ -67,7 +68,7 @@ public class CustomerService {
         return customerDTO;
     }
 
-    private Customer mapToEntity(final CustomerDTO customerDTO, final Customer customer) {
+    private Customer mapToEntity(final CustomerModel customerDTO, final Customer customer) {
         customer.setName(customerDTO.getName());
         customer.setEmail(customerDTO.getEmail());
         customer.setPassword(customerDTO.getPassword());
@@ -79,5 +80,4 @@ public class CustomerService {
             super(message);
         }
     }
-
 }

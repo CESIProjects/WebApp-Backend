@@ -1,31 +1,29 @@
-package resources.backend.domain;
+package resources.backend.model;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
+import com.fasterxml.jackson.databind.ser.std.DateSerializer;
 
-@Entity
-public class Post {
+import java.util.Date;
 
-    @Id
-    @Column(nullable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class PostModel {
+
     private Long id;
 
-    @Column(nullable = false)
     private String title;
 
-    @Column(columnDefinition = "LONGTEXT")
     private String content;
 
-    @Column(name = "publication_date", nullable = false)
-    private String publicationDate;
+    @JsonSerialize(using = DateSerializer.class)
+    @JsonDeserialize(using = DateDeserializers.DateDeserializer.class)
+    private Date publicationDate;
 
-    @Column(nullable = false)
-    private Long popular;
 
-    @Column(nullable = false)
+    private Boolean popular;
+
     private Long userId;
 
-    @Column(nullable = false)
     private Long categoryId;
 
     public Long getId() {
@@ -52,19 +50,19 @@ public class Post {
         this.content = content;
     }
 
-    public String getPublicationDate() {
+    public Date getPublicationDate() {
         return publicationDate;
     }
-    
-    public void setPublicationDate(String publication_date) {
-        this.publicationDate = publication_date;
+
+    public void setPublicationDate(Date publicationDate) {
+        this.publicationDate = publicationDate;
     }
 
-    public Long getPopular() {
+    public Boolean getPopular() {
         return popular;
     }
 
-    public void setPopular(Long popular) {
+    public void setPopular(Boolean popular) {
         this.popular = popular;
     }
 
