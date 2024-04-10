@@ -1,7 +1,7 @@
 package resources.backend.model;
 
 public enum ERoleModel {
-  USER,
-  MOD,
-  ADMIN
+  ROLE_USER,
+  ROLE_MOD,
+  ROLE_ADMIN
 }
