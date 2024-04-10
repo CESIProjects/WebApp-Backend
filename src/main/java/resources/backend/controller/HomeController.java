@@ -8,10 +8,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class HomeController {
-
-    @GetMapping("/login")
+  
+    @GetMapping("/home")
     @ResponseBody
-    public String index() {
-        return System.getenv("LOGIN");
+    public String handleWelcome() {
+        return "home";
+    }
+
+    @GetMapping("/admin/home")
+    @ResponseBody
+    public String handleAdminHome() {
+        return "Hello Admin!";
+    }
+
+    @GetMapping("/user/home")
+    @ResponseBody
+    public String handleUserHome() {
+        return "Hello User!";
     }
 }
