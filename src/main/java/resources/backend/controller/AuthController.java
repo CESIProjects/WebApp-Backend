@@ -14,8 +14,8 @@ import resources.backend.payload.request.LoginRequest;
 import resources.backend.payload.request.SignupRequest;
 import resources.backend.payload.response.JwtResponse;
 import resources.backend.payload.response.MessageResponse;
-import resources.backend.repository.RoleRepository;
-import resources.backend.repository.UserRepository;
+import resources.backend.repos.RoleRepos;
+import resources.backend.repos.UserRepos;
 import resources.backend.service.UserDetailsImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +39,10 @@ public class AuthController {
   AuthenticationManager authenticationManager;
 
   @Autowired
-  UserRepository userRepository;
+  UserRepos userRepository;
 
   @Autowired
-  RoleRepository roleRepository;
+  RoleRepos roleRepository;
 
   @Autowired
   PasswordEncoder encoder;

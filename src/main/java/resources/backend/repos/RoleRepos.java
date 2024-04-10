@@ -1,4 +1,4 @@
-package resources.backend.repository;
+package resources.backend.repos;
 
 import java.util.Optional;
 
@@ -8,6 +8,6 @@ import resources.backend.model.ERoleModel;
 import resources.backend.model.RoleModel;
 
 @Repository
-public interface RoleRepository extends JpaRepository<RoleModel, Long> {
+public interface RoleRepos extends JpaRepository<RoleModel, Long> {
   Optional<RoleModel> findByName(ERoleModel name);
 }

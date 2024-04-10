@@ -1,4 +1,4 @@
-package resources.backend.repository;
+package resources.backend.repos;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
