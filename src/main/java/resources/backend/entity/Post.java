@@ -2,6 +2,8 @@ package resources.backend.entity;
 
 import jakarta.persistence.*;
 
+import java.sql.Date;
+
 @Entity
 public class Post {
 
@@ -17,10 +19,10 @@ public class Post {
     private String content;
 
     @Column(name = "publication_date", nullable = false)
-    private String publicationDate;
+    private Date publicationDate;
 
     @Column(nullable = false)
-    private Long popular;
+    private Boolean popular;
 
     @Column(nullable = false)
     private Long userId;
@@ -52,19 +54,19 @@ public class Post {
         this.content = content;
     }
 
-    public String getPublicationDate() {
+    public Date getPublicationDate() {
         return publicationDate;
     }
     
-    public void setPublicationDate(String publication_date) {
+    public void setPublicationDate(Date publication_date) {
         this.publicationDate = publication_date;
     }
 
-    public Long getPopular() {
+    public Boolean getPopular() {
         return popular;
     }
 
-    public void setPopular(Long popular) {
+    public void setPopular(Boolean popular) {
         this.popular = popular;
     }
 

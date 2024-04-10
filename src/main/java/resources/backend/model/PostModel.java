@@ -1,17 +1,24 @@
 package resources.backend.model;
 
-import jakarta.validation.constraints.Size;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
+import com.fasterxml.jackson.databind.ser.std.DateSerializer;
+
+import java.util.Date;
 
 public class PostModel {
 
     private Long id;
 
-    @Size(max = 120)
     private String title;
 
     private String content;
 
-    private String publicationDate;
+    @JsonSerialize(using = DateSerializer.class)
+    @JsonDeserialize(using = DateDeserializers.DateDeserializer.class)
+    private Date publicationDate;
+
 
     private Boolean popular;
 
@@ -43,11 +50,11 @@ public class PostModel {
         this.content = content;
     }
 
-    public String getPublicationDate() {
+    public Date getPublicationDate() {
         return publicationDate;
     }
 
-    public void setPublicationDate(String publicationDate) {
+    public void setPublicationDate(Date publicationDate) {
         this.publicationDate = publicationDate;
     }
 

@@ -5,9 +5,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
+
 @Controller
 public class HomeController {
-
+  
     @GetMapping("/home")
     @ResponseBody
     public String handleWelcome() {
@@ -25,6 +26,4 @@ public class HomeController {
     public String handleUserHome() {
         return "Hello User!";
     }
-
-
 }

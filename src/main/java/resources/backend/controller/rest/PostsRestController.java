@@ -31,11 +31,12 @@ public class PostsRestController {
         return ResponseEntity.ok(postService.get(id));
     }
 
-    @PostMapping
+    @PostMapping("/posts")
     public ResponseEntity<PostModel> createPost(@Valid @RequestBody PostModel postDTO) {
-        Long postId = postService.create(postDTO);
+        Long postId = postService.createPost(postDTO);
         // Retrieve the newly created post and return it with status code 201
-        return ResponseEntity.status(HttpStatus.CREATED).body(postService.get(postId));
+        PostModel createdPost = postService.get(postId); // Assuming there's a method to retrieve a post by ID
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdPost);
     }
 
     @PutMapping("/{id}")

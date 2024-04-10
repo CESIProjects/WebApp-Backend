@@ -38,5 +38,10 @@ build/
 
 # My files (database, etc...)
 /database
+<<<<<<< HEAD
+.env
+=======
 
-resources/application.yml
+src/main/resources/application.yml
+pom.xml
+>>>>>>> de54ec674a0b8e2a8b462696390fae4b28427d69
