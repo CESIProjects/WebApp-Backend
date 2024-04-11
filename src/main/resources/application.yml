@@ -1,10 +1,11 @@
 spring:
   datasource:
-    url: jdbc:postgresql://resources-relationnelles.ct4gy8emwdut.eu-north-1.rds.amazonaws.com:5432/resources
-    # url: jdbc:postgresql://localhost:5432/resources
-    username: postgres
-    password: gnar2004SION2003!
-    # password: root
+    url: ${JDBC_DATABASE_URL:jdbc:mysql://localhost:3306/resources?serverTimezone=UTC}
+    #url: jdbc:postgresql://localhost:5432/resources
+    username: ${JDBC_DATABASE_USERNAME:root}
+    password: ${JDBC_DATABASE_PASSWORD:root}
+    #username: postgres
+    #password: gnar2004SION2003!
   jpa:
     hibernate:
       ddl-auto: none
@@ -16,5 +17,13 @@ spring:
             non_contextual_creation: true
         id:
           new_generator_mappings: true
+  main:
+    allow-circular-references: true
+
 springdoc:
   pathsToMatch: /api/**
+
+bezkoder:
+  app:
+    jwtSecret: 31c0d4f543124e11a47e2832bd82c29eff24951af97ec8e7c21459836e37896a
+    jwtExpirationMs: 3600000 
