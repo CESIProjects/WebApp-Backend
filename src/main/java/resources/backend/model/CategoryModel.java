@@ -3,7 +3,7 @@ package resources.backend.model;
 import jakarta.validation.constraints.Size;
 
 public class CategoryModel {
-    
+
     private Long id;
 
     @Size(max = 255)
