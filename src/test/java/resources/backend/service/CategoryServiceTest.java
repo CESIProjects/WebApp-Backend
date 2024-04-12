@@ -20,7 +20,7 @@ import resources.backend.model.CategoryModel;
 import resources.backend.repos.CategoryRepos;
 import resources.backend.util.NotFoundException;
 
-class CategoryService2Test {
+class CategoryServiceTest {
 
     @Mock
     private CategoryRepos categoryRepository;
