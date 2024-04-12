@@ -47,7 +47,7 @@ public class AuthController {
     JwtUtils jwtUtils;
 
     @PostMapping("/updatePassword/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or or hasRole('ROLE_SUPERADMIN')")
     public ResponseEntity<?> updatePassword(@PathVariable Long id, @Valid @RequestBody PasswordUpdateRequest passwordUpdateRequest) {
         return userRepository.findById(id).map(user -> {
             if (!encoder.matches(passwordUpdateRequest.getOldPassword(), user.getPassword())) {
@@ -64,7 +64,7 @@ public class AuthController {
 
 
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPERADMIN')")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         if (!userRepository.existsById(id)) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: User does not exist!"));
