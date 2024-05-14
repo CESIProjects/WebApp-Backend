@@ -2,12 +2,14 @@ package resources.backend.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import resources.backend.model.UserModel;
 import resources.backend.repos.UserRepos;
+import resources.backend.model.ERoleModel;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,8 +20,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class UserDetailsImplTest {
-
     @Mock
     private UserRepos userRepository;
 
@@ -30,72 +32,77 @@ class UserDetailsImplTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
-
         // Initialize userModel
         userModel = new UserModel();
         userModel.setUsername("username");
         userModel.setEmail("email@example.com");
         userModel.setPassword("password");
-
-        // Stub methods
-        when(userRepository.save(any(UserModel.class))).thenReturn(userModel);
-
-        when(userRepository.findById(1L)).thenReturn(Optional.of(userModel));
+        userModel.setRole(ERoleModel.ROLE_USER);
+        
+        // Initialize userDetailsImpl
+        userDetailsImpl = new UserDetailsImpl(1L, "username", "email@example.com", "password", ERoleModel.ROLE_USER, null, userRepository);
     }
 
+    // Getters
     @Test
     void testGetAuthorities() {
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-        userDetailsImpl = new UserDetailsImpl(1L, "username", "email@example.com", "password", authorities, userRepository);
+        userDetailsImpl = new UserDetailsImpl(1L, "username", "email@example.com", "password", ERoleModel.ROLE_USER, authorities, userRepository);
         assertEquals(authorities, userDetailsImpl.getAuthorities());
     }
 
     @Test
     void testGetId() {
-        userDetailsImpl = new UserDetailsImpl(1L, "username", "email@example.com", "password", new ArrayList<>(), userRepository);
         assertEquals(1L, userDetailsImpl.getId());
     }
 
     @Test
     void testGetUsername() {
-        userDetailsImpl = new UserDetailsImpl(1L, "username", "email@example.com", "password", new ArrayList<>(), userRepository);
         assertEquals("username", userDetailsImpl.getUsername());
     }
 
     @Test
+    void testGetRole() {
+        userDetailsImpl.setRole(ERoleModel.ROLE_ADMIN);
+        assertEquals(ERoleModel.ROLE_ADMIN, userDetailsImpl.getRole());
+    }
+
+    // Setters
+    @Test
+    void testSetRole() {
+        userDetailsImpl.setRole(ERoleModel.ROLE_MOD);
+        assertEquals(ERoleModel.ROLE_MOD, userDetailsImpl.getRole());
+    }
+
+    // Boolean verification methods
+    @Test
     void testIsAccountNonExpired() {
-        userDetailsImpl = new UserDetailsImpl(1L, "username", "email@example.com", "password", new ArrayList<>(), userRepository);
         assertTrue(userDetailsImpl.isAccountNonExpired());
     }
 
     @Test
     void testIsAccountNonLocked() {
-        userDetailsImpl = new UserDetailsImpl(1L, "username", "email@example.com", "password", new ArrayList<>(), userRepository);
         assertTrue(userDetailsImpl.isAccountNonLocked());
     }
 
     @Test
     void testIsCredentialsNonExpired() {
-        userDetailsImpl = new UserDetailsImpl(1L, "username", "email@example.com", "password", new ArrayList<>(), userRepository);
         assertTrue(userDetailsImpl.isCredentialsNonExpired());
     }
 
     @Test
     void testIsEnabled() {
-        userDetailsImpl = new UserDetailsImpl(1L, "username", "email@example.com", "password", new ArrayList<>(), userRepository);
         assertTrue(userDetailsImpl.isEnabled());
     }
 
     @Test
     void testEquals() {
-        UserDetailsImpl userDetailsImpl1 = new UserDetailsImpl(1L, "username", "email@example.com", "password", new ArrayList<>(), userRepository);
-        UserDetailsImpl userDetailsImpl2 = new UserDetailsImpl(1L, "username", "email@example.com", "password", new ArrayList<>(), userRepository);
-        UserDetailsImpl userDetailsImpl3 = new UserDetailsImpl(2L, "username2", "email2@example.com", "password", new ArrayList<>(), userRepository);
+        UserDetailsImpl userDetailsImpl2 = new UserDetailsImpl(1L, "username", "email@example.com", "password", ERoleModel.ROLE_USER, new ArrayList<>(), userRepository);
+        UserDetailsImpl userDetailsImpl3 = new UserDetailsImpl(2L, "username2", "email2@example.com", "password", ERoleModel.ROLE_USER, new ArrayList<>(), userRepository);
 
-        assertTrue(userDetailsImpl1.equals(userDetailsImpl2));
-        assertFalse(userDetailsImpl1.equals(userDetailsImpl3));
+        assertTrue(userDetailsImpl.equals(userDetailsImpl2));
+        assertFalse(userDetailsImpl.equals(userDetailsImpl3));
     }
 
     @Test
@@ -132,6 +139,7 @@ class UserDetailsImplTest {
 
     @Test
     void testCreateUser() {
+        when(userRepository.save(any(UserModel.class))).thenReturn(userModel);
         Long id = userDetailsImpl.createUser(userModel);
         assertEquals(userModel.getId(), id);
     }
@@ -144,6 +152,7 @@ class UserDetailsImplTest {
         existingUser.setEmail("email@example.com");
         existingUser.setPassword("password");
 
+        when(userRepository.findById(1L)).thenReturn(Optional.of(existingUser));
         userDetailsImpl.updateUser(1L, userModel);
 
         assertEquals(userModel.getUsername(), existingUser.getUsername());

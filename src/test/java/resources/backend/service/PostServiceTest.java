@@ -15,17 +15,18 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import resources.backend.entity.Post;
 import resources.backend.model.PostModel;
 import resources.backend.repos.PostRepos;
 import resources.backend.util.NotFoundException;
 
+@ExtendWith(MockitoExtension.class)
 class PostServiceTest {
-
     @Mock
     private PostRepos postRepository;
 
@@ -37,8 +38,6 @@ class PostServiceTest {
 
     @BeforeEach
     void setUp() throws ParseException {
-        MockitoAnnotations.openMocks(this);
-
         // Initialize post
         post = new Post();
         post.setId(1L);
