@@ -7,20 +7,23 @@ import resources.backend.config.jwt.JwtUtils;
 import resources.backend.model.ERoleModel;
 import resources.backend.model.UserModel;
 import resources.backend.payload.request.LoginRequest;
+import resources.backend.payload.request.PasswordUpdateRequest;
 import resources.backend.payload.request.SignupRequest;
 import resources.backend.payload.response.JwtResponse;
 import resources.backend.payload.response.MessageResponse;
 import resources.backend.repos.UserRepos;
 import resources.backend.service.UserDetailsImpl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,18 +33,51 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-    @Autowired
-    AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+    private final UserRepos userRepository;
+    private final PasswordEncoder encoder;
+    private final JwtUtils jwtUtils;
 
-    @Autowired
-    UserRepos userRepository;
+    public AuthController(AuthenticationManager authenticationManager, UserRepos userRepository,
+                          PasswordEncoder encoder, JwtUtils jwtUtils) {
+        this.authenticationManager = authenticationManager;
+        this.userRepository = userRepository;
+        this.encoder = encoder;
+        this.jwtUtils = jwtUtils;
+    }
 
-    @Autowired
-    PasswordEncoder encoder;
+    @PostMapping("/updatePassword/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or or hasRole('ROLE_SUPERADMIN')")
+    public ResponseEntity<?> updatePassword(@PathVariable Long id, @Valid @RequestBody PasswordUpdateRequest passwordUpdateRequest) {
+        return userRepository.findById(id).map(user -> {
+            if (!encoder.matches(passwordUpdateRequest.getOldPassword(), user.getPassword())) {
+                return ResponseEntity.badRequest().body(new MessageResponse("Error: Old password is incorrect!"));
+            }
+            
+            // Mettez à jour le nouveau mot de passe
+            user.setPassword(encoder.encode(passwordUpdateRequest.getNewPassword()));
+            userRepository.save(user);
+            
+            return ResponseEntity.ok(new MessageResponse("Password updated successfully!"));
+        }).orElse(ResponseEntity.notFound().build());
+    }
 
-    @Autowired
-    JwtUtils jwtUtils;
 
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPERADMIN')")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        if (!userRepository.existsById(id)) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: User does not exist!"));
+        }
+        
+        try {
+            userRepository.deleteById(id);
+            return ResponseEntity.ok(new MessageResponse("User deleted successfully!"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Could not delete user!"));
+        }
+    }
+    
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
@@ -85,6 +121,7 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
+    
     
 //   @PostMapping("/signup")
 //   public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {

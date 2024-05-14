@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: ${JDBC_DATABASE_URL:jdbc:mysql://localhost:3306/resources?serverTimezone=UTC}
+    url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/BaseTestRessource?serverTimezone=UTC}
     #url: jdbc:postgresql://localhost:5432/resources
-    username: ${JDBC_DATABASE_USERNAME:root}
-    password: ${JDBC_DATABASE_PASSWORD:root}
+    username: ${JDBC_DATABASE_USERNAME:postgres}
+    password: ${JDBC_DATABASE_PASSWORD:postgres}
     #username: postgres
     #password: gnar2004SION2003!
   jpa:

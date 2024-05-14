@@ -3,9 +3,18 @@ package resources.backend.controller.rest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import resources.backend.model.PostModel;
 import resources.backend.service.PostService;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import java.util.List;
@@ -31,7 +40,8 @@ public class PostsRestController {
         return ResponseEntity.ok(postService.get(id));
     }
 
-    @PostMapping("/posts")
+    @PostMapping
+    @CrossOrigin
     public ResponseEntity<PostModel> createPost(@Valid @RequestBody PostModel postDTO) {
         Long postId = postService.createPost(postDTO);
         // Retrieve the newly created post and return it with status code 201

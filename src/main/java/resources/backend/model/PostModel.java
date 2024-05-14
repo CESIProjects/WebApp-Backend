@@ -22,9 +22,9 @@ public class PostModel {
 
     private Boolean popular;
 
-    private Long userId;
+    private Long user_id;
 
-    private Long categoryId;
+    private Long category_id;
 
     public Long getId() {
         return id;
@@ -67,18 +67,18 @@ public class PostModel {
     }
 
     public Long getUserId() {
-        return userId;
+        return user_id;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUserId(Long user_id) {
+        this.user_id = user_id;
     }
 
     public Long getCategoryId() {
-        return categoryId;
+        return category_id;
     }
 
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
+    public void setCategoryId(Long category_id) {
+        this.category_id = category_id;
     }
 }

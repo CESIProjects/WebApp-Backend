@@ -21,6 +21,7 @@ public class TestController {
   public String userAccess() {
     return "User Content.";
   }
+  
 
   @GetMapping("/mod")
   @PreAuthorize("hasRole('ROLE_MOD') or hasRole('ROLE_ADMIN')")
