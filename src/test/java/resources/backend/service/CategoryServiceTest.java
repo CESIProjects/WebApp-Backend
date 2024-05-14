@@ -6,20 +6,26 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.springframework.data.domain.Sort;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import resources.backend.entity.Category;
 import resources.backend.model.CategoryModel;
 import resources.backend.repos.CategoryRepos;
 import resources.backend.util.NotFoundException;
 
+@ExtendWith(MockitoExtension.class)
 class CategoryServiceTest {
 
     @Mock
@@ -30,36 +36,54 @@ class CategoryServiceTest {
 
     private Category category;
     private CategoryModel categoryModel;
+    private Category category1;
+    private Category category2;
+    private CategoryModel categoryModel1;
+    private CategoryModel categoryModel2;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
-
-        // Initialize category
-        category = new Category();
-        category.setId(1L);
-        category.setName("Test Category");
-
-        // Initialize categoryModel
-        categoryModel = new CategoryModel();
-        categoryModel.setName("Test Category");
+        // Initialize category and category models
+        category = createCategory(1L, "Test Category");
+        category1 = createCategory(1L, "Category 1");
+        category2 = createCategory(2L, "Category 2");
+        categoryModel = createCategoryModel("Test Category");
+        categoryModel1 = createCategoryModel("Category 1");
+        categoryModel2 = createCategoryModel("Category 2");
     }
 
-    // TO DEBUG:
-/*     @Test
+    // Helper methods
+    private Category createCategory(Long id, String name) {
+        Category category = new Category();
+        category.setId(id);
+        category.setName(name);
+        return category;
+    }
+
+    private CategoryModel createCategoryModel(String name) {
+        CategoryModel categoryModel = new CategoryModel();
+        categoryModel.setName(name);
+        return categoryModel;
+    }
+
+    @Test
     void testFindAll() {
-        // Given
-        List<Category> categories = new ArrayList<>();
-        categories.add(new Category());
-        categories.add(new Category());
-        doReturn(categories).when(categoryRepository).findAll();
-
-        // When
+        // Mocking the categoryRepository
+        List<Category> mockCategoryList = new ArrayList<>();
+        mockCategoryList.add(category1);
+        mockCategoryList.add(category2);
+    
+        // Mocking the behavior of categoryRepository.findAll()
+        when(categoryRepository.findAll(Sort.by("id"))).thenReturn(mockCategoryList);
+    
+        // Call the service method
         List<CategoryModel> result = categoryService.findAll();
-
-        // Then
+    
+        // Verify the result
         assertEquals(2, result.size());
-    } */
+        assertEquals(categoryModel1.getName(), result.get(0).getName());
+        assertEquals(categoryModel2.getName(), result.get(1).getName());
+    }
 
     @Test
     void testGetExistingCategory() {

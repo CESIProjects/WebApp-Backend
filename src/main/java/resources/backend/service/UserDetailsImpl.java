@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import resources.backend.entity.User;
 import resources.backend.model.UserModel;
+import resources.backend.model.ERoleModel;
 import resources.backend.repos.UserRepos;
 import resources.backend.util.NotFoundException;
 
@@ -24,21 +24,22 @@ public class UserDetailsImpl implements UserDetails {
   private Long id;
   private String username;
   private String email;
+  private ERoleModel role;
 
   @JsonIgnore
   private String password;
 
-  @Autowired
   private  final UserRepos userRepository;
 
   private Collection<? extends GrantedAuthority> authorities;
 
-  public UserDetailsImpl(Long id, String username, String email, String password,
+  public UserDetailsImpl(Long id, String username, String email, String password, ERoleModel role,
           Collection<? extends GrantedAuthority> authorities, final UserRepos userRepository) {
       this.id = id;
       this.username = username;
       this.email = email;
       this.password = password;
+      this.role = role;
       this.authorities = authorities;
       this.userRepository = userRepository;
   }
@@ -50,6 +51,7 @@ public class UserDetailsImpl implements UserDetails {
               user.getUsername(),
               user.getEmail(),
               user.getPassword(),
+              user.getRole(),
               Collections.singletonList(authority),
               userRepository);
   }
@@ -120,6 +122,7 @@ public class UserDetailsImpl implements UserDetails {
     user.setEmail(userDTO.getEmail());
   }
 
+  // Getters
   public Long getId() {
     return id;
   }
@@ -138,6 +141,16 @@ public class UserDetailsImpl implements UserDetails {
     return username;
   }
 
+  public ERoleModel getRole() {
+    return role;
+  }
+  
+  // Setters
+  public void setRole(ERoleModel role) {
+    this.role = role;
+  }
+
+  // Boolean verification methods
   @Override
   public boolean isAccountNonExpired() {
     return true;
@@ -166,5 +179,10 @@ public class UserDetailsImpl implements UserDetails {
       return false;
     UserDetailsImpl user = (UserDetailsImpl) o;
     return Objects.equals(id, user.id);
+  }
+
+  @Override
+  public int hashCode() {
+      return Objects.hash(id);
   }
 }

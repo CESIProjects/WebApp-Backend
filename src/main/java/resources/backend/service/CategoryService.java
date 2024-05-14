@@ -20,11 +20,13 @@ public class CategoryService {
     }
 
     public List<CategoryModel> findAll() {
-        final List<Category> categorys = categoryRepository.findAll(Sort.by("id"));
-        return categorys.stream()
+        final List<Category> categories = categoryRepository.findAll(Sort.by("id"));
+        
+        return categories.stream()
                 .map(category -> mapToDTO(category, new CategoryModel()))
                 .toList();
     }
+      
 
     public CategoryModel get(final Long id) {
         return categoryRepository.findById(id)
