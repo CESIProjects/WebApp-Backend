@@ -40,15 +40,15 @@ public class JwtUtils {
     return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
   }
 
-  public String getUserNameFromJwtToken(String token) throws JwtException {
+  public String getUserNameFromJwtToken(String token) {
     try {
         return Jwts.parserBuilder().setSigningKey(key()).build()
                 .parseClaimsJws(token).getBody().getSubject();
     } catch (JwtException e) {
         logger.error("Error parsing JWT token: {}", e.getMessage());
-        throw new JwtException("Error parsing JWT token", e);
+        return null;
     }
-  }
+}
 
   public boolean validateJwtToken(String authToken) {
     try {
