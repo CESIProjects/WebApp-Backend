@@ -27,7 +27,7 @@ Et rendez-vous sur http://localhost:8080
 ### SonarQube
 Step 1 - Download SonarQube on the official Website and take note of the version (9.9.3 for me) (url for download : https://www.sonarsource.com/products/sonarqube/downloads/) If, when you lauch http://localhost:9000/, you find the page, you're strong enough to continue.
 
-Step 2 - Unzip the folder, then go to bin -> windows-x86-64 -> run StartSonar (or into the right path in the terminal: ./sonar.sh start)
+Step 2 - Unzip the folder, then go to bin -> windows-x86-64 -> run StartSonar (or into the right path in the terminal: ./sonar.sh start) (also necessary each time you want to start sonar)
 
 Step 3 - Go to your Windows Environements Varibales and Create a system variable named "SONAR_TOKEN" with the value "squ_46c9c1e8595241651fce9bb5face8f0d8707793c"
 
