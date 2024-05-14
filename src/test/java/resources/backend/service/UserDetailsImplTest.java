@@ -64,8 +64,8 @@ class UserDetailsImplTest {
 
     @Test
     void testGetRole() {
-        userDetailsImpl.setRole(ERoleModel.ROLE_ADMIN);
-        assertEquals(ERoleModel.ROLE_ADMIN, userDetailsImpl.getRole());
+        ERoleModel actualRole = userDetailsImpl.getRole();
+        assertEquals(ERoleModel.ROLE_USER, actualRole);
     }
 
     // Setters

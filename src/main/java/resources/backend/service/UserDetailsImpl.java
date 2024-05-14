@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,7 +29,6 @@ public class UserDetailsImpl implements UserDetails {
   @JsonIgnore
   private String password;
 
-  @Autowired
   private  final UserRepos userRepository;
 
   private Collection<? extends GrantedAuthority> authorities;
@@ -181,5 +179,10 @@ public class UserDetailsImpl implements UserDetails {
       return false;
     UserDetailsImpl user = (UserDetailsImpl) o;
     return Objects.equals(id, user.id);
+  }
+
+  @Override
+  public int hashCode() {
+      return Objects.hash(id);
   }
 }
