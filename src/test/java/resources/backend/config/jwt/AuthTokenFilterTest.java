@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-public class AuthTokenFilterTest {
+class AuthTokenFilterTest {
 
     private AuthTokenFilter authTokenFilter;
     private JwtUtils jwtUtils;
