@@ -1,14 +1,12 @@
 package resources.backend.entity;
 
 import jakarta.persistence.*;
-
 import java.sql.Date;
 
 @Entity
 public class Post {
 
     @Id
-    @Column(nullable = false, updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -30,6 +28,7 @@ public class Post {
     @Column(nullable = false)
     private Long categoryId;
 
+    // Getters and setters
     public Long getId() {
         return id;
     }
@@ -57,9 +56,9 @@ public class Post {
     public Date getPublicationDate() {
         return publicationDate;
     }
-    
-    public void setPublicationDate(Date publication_date) {
-        this.publicationDate = publication_date;
+
+    public void setPublicationDate(Date publicationDate) {
+        this.publicationDate = publicationDate;
     }
 
     public Boolean getPopular() {

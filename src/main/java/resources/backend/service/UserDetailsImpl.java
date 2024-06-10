@@ -16,7 +16,6 @@ import resources.backend.repos.UserRepos;
 import resources.backend.util.NotFoundException;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class UserDetailsImpl implements UserDetails {
   private static final long serialVersionUID = 1L;
@@ -29,7 +28,7 @@ public class UserDetailsImpl implements UserDetails {
   @JsonIgnore
   private String password;
 
-  private  final UserRepos userRepository;
+  private  transient UserRepos userRepository;
 
   private Collection<? extends GrantedAuthority> authorities;
 
@@ -65,7 +64,7 @@ public class UserDetailsImpl implements UserDetails {
     return userRepository.findAll()
         .stream()
         .map(this::mapToDTO)
-        .collect(Collectors.toList());
+        .toList();
   }
 
   public UserModel get(final Long id) {
@@ -110,7 +109,7 @@ public class UserDetailsImpl implements UserDetails {
   }
 
   private User mapToEntity(final UserModel userDTO) {
-      User user = new User();
+      User user = new User(username, email, password, email);
       user.setUsername(userDTO.getUsername());
       user.setEmail(userDTO.getEmail());
       user.setPassword(userDTO.getPassword());
