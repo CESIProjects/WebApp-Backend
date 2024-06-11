@@ -15,32 +15,34 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import resources.backend.config.jwt.AuthEntryPointJwt;
 import resources.backend.config.jwt.AuthTokenFilter;
+import resources.backend.config.jwt.JwtUtils;
 import resources.backend.service.UserDetailsServiceImpl;
 
 @Configuration
 @EnableMethodSecurity
 public class WebSecurityConfig {
+
   private final UserDetailsServiceImpl userDetailsService;
   private final AuthEntryPointJwt unauthorizedHandler;
+  private final JwtUtils jwtUtils;
 
-  public WebSecurityConfig(UserDetailsServiceImpl userDetailsService, AuthEntryPointJwt unauthorizedHandler) {
+  public WebSecurityConfig(UserDetailsServiceImpl userDetailsService, AuthEntryPointJwt unauthorizedHandler, JwtUtils jwtUtils) {
     this.userDetailsService = userDetailsService;
     this.unauthorizedHandler = unauthorizedHandler;
-}
+    this.jwtUtils = jwtUtils;
+  }
 
   @Bean
   public AuthTokenFilter authenticationJwtTokenFilter() {
-    return new AuthTokenFilter(null, userDetailsService);
+    return new AuthTokenFilter(jwtUtils, userDetailsService);
   }
   
   @Bean
   public DaoAuthenticationProvider authenticationProvider() {
-      DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-       
-      authProvider.setUserDetailsService(userDetailsService);
-      authProvider.setPasswordEncoder(passwordEncoder());
-   
-      return authProvider;
+    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+    authProvider.setUserDetailsService(userDetailsService);
+    authProvider.setPasswordEncoder(passwordEncoder());
+    return authProvider;
   }
   
   @Bean
@@ -66,7 +68,6 @@ public class WebSecurityConfig {
         );
     
     http.authenticationProvider(authenticationProvider());
-
     http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     
     return http.build();
