@@ -41,7 +41,7 @@ public class CategoryRestController {
         return ResponseEntity.ok(categoryService.get(id));
     }
 
-    @PostMapping
+    @PostMapping("/post")
     public ResponseEntity<CategoryModel> createCategory(@Valid @RequestBody CategoryModel categoryDTO) {
         Long categoryId = categoryService.create(categoryDTO);
         // Retrieve the newly created category and return it with status code 201

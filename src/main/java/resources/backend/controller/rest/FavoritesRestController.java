@@ -1,7 +1,7 @@
 package resources.backend.controller.rest;
 import jakarta.validation.Valid;
-import resources.backend.model.FavoriteModel;
-import resources.backend.service.FavoriteService;
+import resources.backend.model.FavoritesModel;
+import resources.backend.service.FavoritesService;
 
 import java.util.List;
 
@@ -23,45 +23,44 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/api/favorites", produces = MediaType.APPLICATION_JSON_VALUE)
 
-public class FavoriteRestController {
+public class FavoritesRestController {
 
-    private final FavoriteService favoriteService;
+    private final FavoritesService favoritesService ;
 
     @Autowired
-    public FavoriteRestController(FavoriteService favoriteService) {
-        this.favoriteService = favoriteService;
+    public FavoritesRestController(FavoritesService favoriteService) {
+        this.favoritesService = favoriteService;
     }
 
     @GetMapping
-    public ResponseEntity<List<FavoriteModel>> getAllFavorite() {
-        return ResponseEntity.ok(favoriteService.findAll());
+    public ResponseEntity<List<FavoritesModel>> getAllFavorite() {
+        return ResponseEntity.ok(favoritesService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<FavoriteModel> getFavorite(@PathVariable(name = "id") final Long id) {
-        return ResponseEntity.ok(favoriteService.get(id));
+    public ResponseEntity<FavoritesModel> getFavorite(@PathVariable(name = "id") final Long id) {
+        return ResponseEntity.ok(favoritesService.get(id));
     }
 
 
-    @PostMapping
-    public ResponseEntity<FavoriteModel> createFavorite(@Valid @RequestBody FavoriteModel favoriteDTO) {
-        Long favoriteId = favoriteService.create(favoriteDTO);
-        // Retrieve the newly created favorite and return it with status code 201
-        return ResponseEntity.status(HttpStatus.CREATED).body(favoriteService.get(favoriteId));
+    @PostMapping("/post")
+    public ResponseEntity<FavoritesModel> createFavorite(@Valid @RequestBody FavoritesModel favoriteDTO) {
+        Long favoriId = favoritesService.create(favoriteDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(favoritesService.get(favoriId));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<FavoriteModel> updateFavorite(@PathVariable(name = "id") final Long id,
-        @Valid @RequestBody FavoriteModel favoriteDTO) {
-        favoriteService.update(id, favoriteDTO);
+    public ResponseEntity<FavoritesModel> updateFavorite(@PathVariable(name = "id") final Long id,
+        @Valid @RequestBody FavoritesModel favoriteDTO) {
+        favoritesService.update(id, favoriteDTO);
         // Retrieve the updated favorite and return it
-        return ResponseEntity.ok(favoriteService.get(id));
+        return ResponseEntity.ok(favoritesService.get(id));
     }
 
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFavorite(@PathVariable(name = "id") final Long id) {
-        favoriteService.delete(id);
+        favoritesService.delete(id);
         return ResponseEntity.noContent().build();
     }
 

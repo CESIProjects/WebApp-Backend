@@ -1,13 +1,24 @@
-package resources.backend.model;
+package resources.backend.entity;
 
-import jakarta.validation.constraints.Size;
-public class FavoriteModel {
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
+@Entity
+public class Favorites {
+    @Id
+    @Column(nullable = false, updatable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Size(max = 255)
+
+    @Column(nullable = false)
     private Long postId;
-    @Size(max = 255)
+
+    @Column(nullable = false)
     private Long userId;
+
 
     public Long getId() {
         return id;

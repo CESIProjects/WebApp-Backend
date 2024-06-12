@@ -1,24 +1,17 @@
-package resources.backend.entity;
+package resources.backend.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 
-@Entity
-public class Favorite {
-    @Id
-    @Column(nullable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+import jakarta.validation.constraints.NotNull;
+
+public class FavoritesModel {
+
     private Long id;
 
-    @Column(nullable = false)
+    @NotNull
     private Long postId;
 
-    @Column(nullable = false)
+    @NotNull
     private Long userId;
-
 
     public Long getId() {
         return id;
