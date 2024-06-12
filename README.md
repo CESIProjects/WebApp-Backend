@@ -25,6 +25,7 @@ Si la commande est un succès vous pourrez allumé le serveur avec :
 Et rendez-vous sur http://localhost:8080
 
 ### Connexion base - Postgres
+```bash
 url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/BaseTestRessource?serverTimezone=UTC}
     #url: jdbc:postgresql://localhost:5432/resources
     username: ${JDBC_DATABASE_USERNAME:postgres}
