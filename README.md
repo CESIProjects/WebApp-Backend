@@ -34,6 +34,10 @@ url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/BaseTestRessource?serv
 
 A mettre dans le fichier java/resources/backend/resources/application.yml
 
+### Mise à jour de la base
+- Récupérer l'export sur Discord
+- Importer sur PGAdmin
+
 ### SonarQube
 Step 1 - Download SonarQube on the official Website and take note of the version (9.9.3 for me) (url for download : https://www.sonarsource.com/products/sonarqube/downloads/) If, when you lauch http://localhost:9000/, you find the page, you're strong enough to continue.
 
