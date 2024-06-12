@@ -24,6 +24,14 @@ Si la commande est un succès vous pourrez allumé le serveur avec :
 
 Et rendez-vous sur http://localhost:8080
 
+### Connexion base - Postgres
+url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/BaseTestRessource?serverTimezone=UTC}
+    #url: jdbc:postgresql://localhost:5432/resources
+    username: ${JDBC_DATABASE_USERNAME:postgres}
+    password: ${JDBC_DATABASE_PASSWORD:postgres}
+
+A mettre dans le fichier java/resources/backend/resources/application.yml
+
 ### SonarQube
 Step 1 - Download SonarQube on the official Website and take note of the version (9.9.3 for me) (url for download : https://www.sonarsource.com/products/sonarqube/downloads/) If, when you lauch http://localhost:9000/, you find the page, you're strong enough to continue.
 
