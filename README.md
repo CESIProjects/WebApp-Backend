@@ -30,6 +30,7 @@ url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/BaseTestRessource?serv
     #url: jdbc:postgresql://localhost:5432/resources
     username: ${JDBC_DATABASE_USERNAME:postgres}
     password: ${JDBC_DATABASE_PASSWORD:postgres}
+```
 
 A mettre dans le fichier java/resources/backend/resources/application.yml
 
