@@ -13,19 +13,21 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-public class AuthTokenFilterTest {
+import resources.backend.service.UserDetailsServiceImpl;
+
+class AuthTokenFilterTest {
 
     private AuthTokenFilter authTokenFilter;
     private JwtUtils jwtUtils;
-    private UserDetailsService userDetailsService;
+    private UserDetailsServiceImpl userDetailsService;
 
     @BeforeEach
     void setUp() {
         jwtUtils = mock(JwtUtils.class);
-        userDetailsService = mock(UserDetailsService.class);
+        userDetailsService = mock(UserDetailsServiceImpl.class);
         authTokenFilter = new AuthTokenFilter(jwtUtils, userDetailsService);
     }
 
@@ -83,6 +85,32 @@ public class AuthTokenFilterTest {
         authTokenFilter.doFilterInternal(request, response, filterChain);
 
         // Assert
+        verify(filterChain).doFilter(request, response);
+    }
+
+    @Test
+    void testDoFilterInternal_ValidToken() throws ServletException, IOException {
+        // Arrange
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        FilterChain filterChain = mock(FilterChain.class);
+
+        String jwtToken = "validJwtToken";
+        String username = "testUser";
+        UserDetails userDetails = mock(UserDetails.class);
+
+        when(request.getHeader("Authorization")).thenReturn("Bearer " + jwtToken);
+        when(jwtUtils.validateJwtToken(jwtToken)).thenReturn(true);
+        when(jwtUtils.getUserNameFromJwtToken(jwtToken)).thenReturn(username);
+        when(userDetailsService.loadUserByUsername(username)).thenReturn(userDetails);
+
+        // Act
+        authTokenFilter.doFilterInternal(request, response, filterChain);
+
+        // Assert
+        verify(jwtUtils).validateJwtToken(jwtToken);
+        verify(jwtUtils).getUserNameFromJwtToken(jwtToken);
+        verify(userDetailsService).loadUserByUsername(username);
         verify(filterChain).doFilter(request, response);
     }
 }

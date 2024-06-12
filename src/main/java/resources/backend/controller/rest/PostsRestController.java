@@ -40,8 +40,7 @@ public class PostsRestController {
         return ResponseEntity.ok(postService.get(id));
     }
 
-    @PostMapping
-    @CrossOrigin
+    @PostMapping("/{id}")
     public ResponseEntity<PostModel> createPost(@Valid @RequestBody PostModel postDTO) {
         Long postId = postService.createPost(postDTO);
         // Retrieve the newly created post and return it with status code 201

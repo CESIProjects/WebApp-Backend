@@ -1,11 +1,11 @@
 spring:
   datasource:
+    #url: jdbc:postgresql://resources-relationnelles.ct4gy8emwdut.eu-north-1.rds.amazonaws.com:5432/resources
     url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/BaseTestRessource?serverTimezone=UTC}
     #url: jdbc:postgresql://localhost:5432/resources
     username: ${JDBC_DATABASE_USERNAME:postgres}
     password: ${JDBC_DATABASE_PASSWORD:postgres}
-    #username: postgres
-    #password: gnar2004SION2003!
+    # password: root
   jpa:
     hibernate:
       ddl-auto: none

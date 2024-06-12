@@ -101,8 +101,8 @@ class UserDetailsImplTest {
         UserDetailsImpl userDetailsImpl2 = new UserDetailsImpl(1L, "username", "email@example.com", "password", ERoleModel.ROLE_USER, new ArrayList<>(), userRepository);
         UserDetailsImpl userDetailsImpl3 = new UserDetailsImpl(2L, "username2", "email2@example.com", "password", ERoleModel.ROLE_USER, new ArrayList<>(), userRepository);
 
-        assertTrue(userDetailsImpl.equals(userDetailsImpl2));
-        assertFalse(userDetailsImpl.equals(userDetailsImpl3));
+        assertEquals(userDetailsImpl, userDetailsImpl2);
+        assertNotEquals(userDetailsImpl, userDetailsImpl3);
     }
 
     @Test

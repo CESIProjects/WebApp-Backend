@@ -19,13 +19,13 @@ public class PostModel {
     @JsonDeserialize(using = DateDeserializers.DateDeserializer.class)
     private Date publicationDate;
 
-
     private Boolean popular;
 
-    private Long user_id;
+    private Long userId;
 
-    private Long category_id;
+    private Long categoryId;
 
+    // Getters and setters
     public Long getId() {
         return id;
     }
@@ -67,18 +67,18 @@ public class PostModel {
     }
 
     public Long getUserId() {
-        return user_id;
+        return userId;
     }
 
-    public void setUserId(Long user_id) {
-        this.user_id = user_id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Long getCategoryId() {
-        return category_id;
+        return categoryId;
     }
 
-    public void setCategoryId(Long category_id) {
-        this.category_id = category_id;
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 }
