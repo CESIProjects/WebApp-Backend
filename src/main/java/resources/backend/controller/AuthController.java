@@ -48,7 +48,7 @@ public class AuthController {
     }
 
     @PostMapping("/updatePassword/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or or hasRole('ROLE_SUPERADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPERADMIN')")
     public ResponseEntity<MessageResponse> updatePassword(@PathVariable Long id, @Valid @RequestBody PasswordUpdateRequest passwordUpdateRequest) {
         return userRepository.findById(id).map(user -> {
             if (!encoder.matches(passwordUpdateRequest.getOldPassword(), user.getPassword())) {
@@ -61,7 +61,7 @@ public class AuthController {
             
             return ResponseEntity.ok(new MessageResponse("Password updated successfully!"));
         }).orElse(ResponseEntity.notFound().build());
-    }
+    }    
 
 
     @DeleteMapping("/delete/{id}")
