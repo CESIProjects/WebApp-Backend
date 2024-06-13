@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+
+import java.util.Collections;
 import java.util.List;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -38,6 +40,11 @@ public class PostsRestController {
     @GetMapping("/{id}")
     public ResponseEntity<PostModel> getPost(@PathVariable(name = "id") final Long id) {
         return ResponseEntity.ok(postService.get(id));
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<PostModel>> getPostsByUserId(@PathVariable(name = "userId") final Long userId) {
+        return ResponseEntity.ok(postService.getPostsByUserId(userId));
     }
 
     @PostMapping("/{id}")

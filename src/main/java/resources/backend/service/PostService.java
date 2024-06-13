@@ -9,6 +9,7 @@ import resources.backend.repos.PostRepos;
 import resources.backend.util.NotFoundException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -30,6 +31,14 @@ public class PostService {
         Post post = postRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
         return mapToDTO(post);
+    }
+
+    public List<PostModel> getPostsByUserId(Long userId) {
+        List<Post> posts = (List<Post>) postRepository.findByUserId(userId)
+                .orElseThrow(NotFoundException::new);
+        return posts.stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
     }
 
     public Long createPost(PostModel postDTO) {
