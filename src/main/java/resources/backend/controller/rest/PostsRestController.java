@@ -51,9 +51,10 @@ public class PostsRestController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<PostModel>> getPostsByUserId(@PathVariable(name = "userId") final Long userId) {
-        return ResponseEntity.ok(postService.getPostsByUserId(userId));
+    public List<PostModel> getPostsByUserId(@PathVariable Long userId) {
+        return postService.getPostsByUserId(userId);
     }
+
 
     @PostMapping("/{id}")
     public ResponseEntity<PostModel> createPost(@Valid @RequestBody PostModel postDTO) {

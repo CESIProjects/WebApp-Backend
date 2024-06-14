@@ -40,8 +40,7 @@ public class PostService {
     }
 
     public List<PostModel> getPostsByUserId(Long userId) {
-        List<Post> posts = (List<Post>) postRepository.findByUserId(userId)
-                .orElseThrow(NotFoundException::new);
+        List<Post> posts = postRepository.findByUserId(userId);
         return posts.stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
