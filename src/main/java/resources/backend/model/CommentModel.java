@@ -7,26 +7,21 @@ public class CommentModel {
     private Long id;
 
     @Size(max = 255)
-    private String title;
-
-    @Size(max = 255)
-    private String text;
+    private String content;
 
     private Long postId;
 
     private Long userId;
+    
+    private String username;
 
 
     public Long getId() {
         return id;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public String getText() {
-        return text;
+    public String getContent() {
+        return content;
     }
 
     public Long getPostId() {
@@ -41,12 +36,8 @@ public class CommentModel {
         this.id = id;
     }
 
-    public void setTitle(final String title) {
-        this.title = title;
-    }
-
-    public void setText(final String text) {
-        this.text = text;
+    public void setContent(final String text) {
+        this.content = text;
     }
 
     public void setPostId(final Long postId) {
@@ -55,6 +46,14 @@ public class CommentModel {
 
     public void setUserId(final Long userId) {
         this.userId = userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
 
