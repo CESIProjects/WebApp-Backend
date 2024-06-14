@@ -64,6 +64,13 @@ public class PostService {
         postRepository.deleteById(id);
     }
 
+    public List<PostModel> getPostsByCategory(Long categoryId) {
+        List<Post> posts = postRepository.findByCategoryId(categoryId);
+        return posts.stream()
+                    .map(this::mapToDTO)  // Convert post to postModel
+                    .collect(Collectors.toList());
+    }
+
     private PostModel mapToDTO(final Post post) {
         PostModel postDTO = new PostModel();
         postDTO.setId(post.getId());
