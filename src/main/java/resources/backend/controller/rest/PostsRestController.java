@@ -35,7 +35,7 @@ public class PostsRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PostModel>> getPosts(@RequestParam(required = false) Long categoryId) {
+    public ResponseEntity<List<PostModel>> getPosts() {
         List<PostModel> posts;
             posts = postService.findAll();
 
