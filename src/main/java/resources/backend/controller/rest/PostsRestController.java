@@ -35,13 +35,16 @@ public class PostsRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PostModel>> getPosts(@RequestParam(required = false) Long categoryId) {
+    public ResponseEntity<List<PostModel>> getPosts() {
         List<PostModel> posts;
-        if (categoryId != null) {
-            posts = postService.getPostsByCategory(categoryId);
-        } else {
             posts = postService.findAll();
-        }
+
+        return ResponseEntity.ok(posts);
+    }
+
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<List<PostModel>> getPostsByCategoryId(@PathVariable Long categoryId) {
+        List<PostModel> posts = postService.getPostsByCategory(categoryId);
         return ResponseEntity.ok(posts);
     }
 

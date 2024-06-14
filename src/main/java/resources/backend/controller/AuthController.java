@@ -60,9 +60,10 @@ public class AuthController {
     @GetMapping("/getUserById/{userId}")
     public ResponseEntity<?> getUserById(long userId) {
         return userRepository.findById(userId)
-                .map(user -> ResponseEntity.ok(user))
+                .map(user -> ResponseEntity.ok(user.getUsername()))
                 .orElse(ResponseEntity.notFound().build());
     }
+    
 
 
     @DeleteMapping("/delete/{id}")
