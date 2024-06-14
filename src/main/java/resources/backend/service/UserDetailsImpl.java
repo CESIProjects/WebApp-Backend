@@ -68,9 +68,9 @@ public class UserDetailsImpl implements UserDetails {
   }
 
   public UserModel get(final Long id) {
-    UserModel user = userRepository.findById(id)
+    UserModel usermodel = userRepository.findById(id)
         .orElseThrow(NotFoundException::new);
-    return mapToDTO(user);
+    return mapToDTO(usermodel);
   }
 
   public Long createUser(UserModel userDTO) {

@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import resources.backend.config.jwt.JwtUtils;
 import resources.backend.model.ERoleModel;
+import resources.backend.model.PostModel;
 import resources.backend.model.UserModel;
 import resources.backend.payload.request.LoginRequest;
 import resources.backend.payload.request.PasswordUpdateRequest;
@@ -23,6 +24,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import resources.backend.util.NotFoundException;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -32,6 +34,8 @@ public class AuthController {
     private final UserRepos userRepository;
     private final PasswordEncoder encoder;
     private final JwtUtils jwtUtils;
+
+    private UserDetailsImpl userService;
 
     public AuthController(AuthenticationManager authenticationManager, UserRepos userRepository,
                           PasswordEncoder encoder, JwtUtils jwtUtils) {
@@ -58,13 +62,11 @@ public class AuthController {
     }
 
     @GetMapping("/getUserById/{userId}")
-    public ResponseEntity<?> getUserById(long userId) {
-        return userRepository.findById(userId)
-                .map(user -> ResponseEntity.ok(user.getUsername()))
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<UserModel> getUserById(@PathVariable(name = "userId") final Long userId) {
+        return ResponseEntity.ok(userRepository.findById(userId).get());
     }
-    
 
+  
 
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPERADMIN')")
