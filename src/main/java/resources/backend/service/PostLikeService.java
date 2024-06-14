@@ -5,6 +5,7 @@ import resources.backend.entity.PostLike;
 import resources.backend.entity.PostLikeId;
 import resources.backend.repos.PostLikeRepos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,7 +29,13 @@ public class PostLikeService {
         return postLikeRepos.findByIdUserId(userId);
     }
 
-    public List<PostLike> getLikesByPostId(final Integer postId) {
-        return postLikeRepos.findByIdPostId(postId);
+    public List<Integer> findUserIdsWhoLikedPost(final Integer postId) {
+        List<PostLike> likes = postLikeRepos.findByIdPostId(postId);
+        List<Integer> userIds = new ArrayList<>();
+        for (PostLike like : likes) {
+            userIds.add(like.getUserId());
+        }
+        return userIds;
     }
+
 }

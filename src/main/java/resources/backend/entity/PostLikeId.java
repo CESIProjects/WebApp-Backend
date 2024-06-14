@@ -38,4 +38,22 @@ public class PostLikeId implements Serializable {
         PostLikeId that = (PostLikeId) obj;
         return Objects.equals(userId, that.userId) && Objects.equals(postId, that.postId);
     }
+
+    // Getters and setters
+    public Long getUserId() {
+        return userId;
+    }
+
+    public Integer getPostId() {
+        return postId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public void setPostId(Integer postId) {
+        this.postId = postId;
+    }
+
 }

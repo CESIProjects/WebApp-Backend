@@ -27,4 +27,8 @@ public class PostLike {
     public void setId(PostLikeId id) {
         this.id = id;
     }
+
+    public Integer getUserId() {
+        return Math.toIntExact(id.getUserId());
+    }
 }

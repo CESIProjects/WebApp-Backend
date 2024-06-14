@@ -42,8 +42,8 @@ public class PostLikeController {
     }
 
     @GetMapping("/post/{postId}")
-    public ResponseEntity<List<PostLike>> getLikesByPostId(@PathVariable Integer postId) {
-        List<PostLike> likes = postLikeService.getLikesByPostId(postId);
+    public ResponseEntity<List<Integer>> getLikesByPostId(@PathVariable Integer postId) {
+        List<Integer> likes = postLikeService.findUserIdsWhoLikedPost(postId);
         return ResponseEntity.ok(likes);
     }
 }
