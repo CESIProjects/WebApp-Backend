@@ -64,6 +64,13 @@ public class AuthController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/getUsernameById/{userId}")
+    public ResponseEntity<?> getUsernameById(@PathVariable long userId) {
+        return userRepository.findById(userId)
+                .map(user -> ResponseEntity.ok(user.getUsername()))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
 
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPERADMIN')")
