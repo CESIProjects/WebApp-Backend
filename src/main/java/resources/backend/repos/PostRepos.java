@@ -11,4 +11,6 @@ import java.util.Optional;
 
 public interface PostRepos extends JpaRepository<Post, Long> {
   List<Post> findByCategoryId(Long categoryId);
+
+  Optional<Object> findByUserId(Long userId);
 }
