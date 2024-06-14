@@ -15,6 +15,7 @@ public class PostModel {
 
     private String content;
 
+
     @JsonSerialize(using = DateSerializer.class)
     @JsonDeserialize(using = DateDeserializers.DateDeserializer.class)
     private Date publicationDate;
@@ -24,6 +25,10 @@ public class PostModel {
     private Long userId;
 
     private Long categoryId;
+
+    private String username;
+    
+    private String categoryName;
 
     // Getters and setters
     public Long getId() {
@@ -80,5 +85,21 @@ public class PostModel {
 
     public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 }
