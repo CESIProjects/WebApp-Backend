@@ -10,9 +10,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
-    public String title;
-    @Column
-    public String text;
+    public String content;
     @Column
     public Long postId;
     @Column
@@ -27,13 +25,8 @@ public class Comment {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-
-    public String getText() {
-        return text;
+    public String getContent() {
+        return content;
     }
 
     public Long getPostId() {
@@ -44,12 +37,8 @@ public class Comment {
         return userId;
     }
 
-    public void setTitle(final String title) {
-        this.title = title;
-    }
-
-    public void setText(final String text) {
-        this.text = text;
+    public void setContent(final String text) {
+        this.content = text;
     }
 
     public void setPostId(final Long postId) {
