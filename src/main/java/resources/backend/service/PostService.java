@@ -9,6 +9,7 @@ import resources.backend.repos.PostRepos;
 import resources.backend.util.NotFoundException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -47,6 +48,13 @@ public class PostService {
 
     public void delete(final Long id) {
         postRepository.deleteById(id);
+    }
+
+    public List<PostModel> getPostsByCategory(Long categoryId) {
+        List<Post> posts = postRepository.findByCategoryId(categoryId);
+        return posts.stream()
+                    .map(this::mapToDTO)  // Convert post to postModel
+                    .collect(Collectors.toList());
     }
 
     private PostModel mapToDTO(final Post post) {

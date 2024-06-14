@@ -3,8 +3,9 @@ package resources.backend.controller.rest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import resources.backend.model.PostModel;
+
 import resources.backend.service.PostService;
+import resources.backend.model.PostModel;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
@@ -31,8 +33,14 @@ public class PostsRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PostModel>> getAllPosts() {
-        return ResponseEntity.ok(postService.findAll());
+    public ResponseEntity<List<PostModel>> getPosts(@RequestParam(required = false) Long categoryId) {
+        List<PostModel> posts;
+        if (categoryId != null) {
+            posts = postService.getPostsByCategory(categoryId);
+        } else {
+            posts = postService.findAll();
+        }
+        return ResponseEntity.ok(posts);
     }
 
     @GetMapping("/{id}")
@@ -50,7 +58,7 @@ public class PostsRestController {
 
     @PutMapping("/{id}")
     public ResponseEntity<PostModel> updatePost(@PathVariable(name = "id") final Long id,
-                                              @Valid @RequestBody PostModel postDTO) {
+            @Valid @RequestBody PostModel postDTO) {
         postService.update(id, postDTO);
         // Retrieve the updated post and return it
         return ResponseEntity.ok(postService.get(id));
