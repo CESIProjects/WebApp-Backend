@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 
 import resources.backend.entity.Post;
 import resources.backend.model.PostModel;
+import resources.backend.repos.CategoryRepos;
 import resources.backend.repos.PostRepos;
+import resources.backend.repos.UserRepos;
 import resources.backend.util.NotFoundException;
 
 import java.util.List;
@@ -14,10 +16,14 @@ import java.util.stream.Collectors;
 @Service
 public class PostService {
     private final PostRepos postRepository;
+    private final UserRepos userRepository;
+    private final CategoryRepos categoryRepository;
 
     @Autowired
-    public PostService(final PostRepos postRepository) {
+    public PostService(final PostRepos postRepository, final UserRepos userRepository, final CategoryRepos categoryRepository) {
         this.postRepository = postRepository;
+        this.userRepository = userRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     public List<PostModel> findAll() {
@@ -31,6 +37,14 @@ public class PostService {
         Post post = postRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
         return mapToDTO(post);
+    }
+
+    public List<PostModel> getPostsByUserId(Long userId) {
+        List<Post> posts = (List<Post>) postRepository.findByUserId(userId)
+                .orElseThrow(NotFoundException::new);
+        return posts.stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
     }
 
     public Long createPost(PostModel postDTO) {
@@ -66,6 +80,15 @@ public class PostService {
         postDTO.setPopular(post.getPopular());
         postDTO.setUserId(post.getUserId());
         postDTO.setCategoryId(post.getCategoryId());
+        String username = userRepository.findById(post.getUserId())
+                .orElseThrow(NotFoundException::new)
+                .getUsername();
+        postDTO.setUsername(username);
+
+        String categoryName = categoryRepository.findById(post.getCategoryId())
+                .orElseThrow(NotFoundException::new)
+                .getName();
+        postDTO.setCategoryName(categoryName);
         return postDTO;
     }
 
